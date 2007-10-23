@@ -10,8 +10,11 @@ module Ardes #:nodoc:
     end
     
     module ClassMethods
-      # response_for allows you to decorate your respond_to actions on sublcassed
-      # controllers, so you don't have to rewrite the entire action.
+      # response_for allows you to decorate your actions with small respond_to
+      # chunks.
+      # 
+      # One use for this is with subclassed controllers, so you don't have to rewrite the entire action.
+      # 
       #
       # === Example
       #
