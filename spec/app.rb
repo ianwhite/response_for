@@ -1,4 +1,4 @@
-class FooBarController < ApplicationController
+class FooController < ApplicationController
   def foo
     @foo = "Foo"
     respond_to do |format|
@@ -6,41 +6,40 @@ class FooBarController < ApplicationController
     end
   end
   
+  # testing that erase_render_results works as expected
   def bar
-    @bar = "Bar"
+    respond_to(:json)
+    erase_render_results
   end
 end
 
-class XmlFooBarController < FooBarController
-  response_for :foo, :bar do |format|
-    format.xml {}
-  end
+class XmlFooController < FooController
+  response_for :just_a_template, :foo, :bar, :types => [:xml]
 end
 
-class XmlOnlyFooBarController < FooBarController
-  response_for :foo, :bar, :replace => true do |format|
-    format.xml {}
-  end
-end
-
-class XmlAndMoreFooBarController < XmlFooBarController
+class InlineXmlFooController < FooController
   response_for :foo do |format|
-    format.rjs do 
-      render :update do |page|
-        page.replace_html 'foo', 'Foo'
-      end
+    format.xml do
+      render :inline => xml_call(action_name) # to be stubbed in specs
     end
   end
-  
-  response_for :bar do |format|
-    format.html { render :action => 'more_bar' }
-  end
 end
 
-class FooRemovedController < FooBarController
+class XmlOnlyFooController < FooController
+  response_for :foo, :bar, :types => [:xml], :replace => true
+end
+
+class BackToFooController < XmlFooController
+  remove_response_for :foo, :bar
+end
+
+class FooRemovedController < FooController
   remove_action :foo
+  
+  def foo2; end
+  def foo3; end
 end
 
-class FooBarRemovedController < FooBarController
-  remove_action :foo, :bar
+class AllFooRemovedController < FooRemovedController
+  remove_action :foo2, :foo3
 end
