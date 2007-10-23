@@ -50,6 +50,6 @@ class method #action_responses
 - @grandchild.action_responses[:action] not be same object as @child.action_responses[:action]
 - adding to @grandchild.action_responses[:action] should not change parents
 
-Finished in 0.267068 seconds
+Finished in 0.26678 seconds
 
 33 examples, 0 failures

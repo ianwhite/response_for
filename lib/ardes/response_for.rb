@@ -109,6 +109,7 @@ module Ardes #:nodoc:
           instance_variable_set('@action_responses', (superclass.action_responses.inject({}) {|m,(k,v)| m.merge(k => v.dup)} rescue {}))
       end
       
+      # hash of actions where the respond_to blcok has been replaced
       def respond_to_replaced
         read_inheritable_attribute(:respond_to_replaced) || write_inheritable_attribute(:respond_to_replaced, {})
       end
@@ -134,8 +135,7 @@ module Ardes #:nodoc:
       erase_render_results_without_response_for
     end
     
-    # Adds a hook for when render is called without arguments or a block:
-    #
+    # Adds a hook for when render is called without arguments or a block.
     # Prior to rendering, call respond_to if there is a response_for, and 
     # if respond_to has not yet been performed.
     #
