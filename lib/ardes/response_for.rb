@@ -38,6 +38,13 @@ module Ardes #:nodoc:
       #     response_for :index, :show, :types => [:html, :xml, :js]
       #   end
       #
+      # === Important
+      # If you want to make sure that no repsonse_for can override your repsond_to
+      # block, then use respond_to_without_response_for
+      #
+      # An example of this would be when you want to redirect on html in a 
+      # before_filterl, and you definitely don't want response_for to override that
+      # 
       # === Usage
       #
       #   response_for :action1 [, :action2], [,:types => [:mime, :type, :list]] [,:replace => <boolean>] [ do |format| ... end]

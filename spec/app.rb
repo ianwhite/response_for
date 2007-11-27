@@ -17,6 +17,23 @@ class XmlFooController < FooController
   response_for :just_a_template, :foo, :bar, :types => [:xml]
 end
 
+class FooBailOutController < FooController
+  before_filter :bail_out_if_redirect
+  
+  response_for :foo do |format|
+    format.html { render :action => 'cool'}
+  end
+  
+protected
+  def bail_out_if_redirect
+    if params[:redirect]
+      respond_to_without_response_for do |format|
+        format.html { redirect_to 'http://test.host/redirected' }
+      end
+    end
+  end
+end
+
 class InlineXmlFooController < FooController
   response_for :foo do |format|
     format.xml do

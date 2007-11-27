@@ -12,6 +12,13 @@ DefaultRespondToController behaviour of #respond_to
 - get :foo should not call second
 - get :foo should call third
 
+FooBailOutController
+- get :foo should render text/html: foo
+- get :foo should assign @foo
+- get :foo, :format => 'html' should render foo
+- get :foo, :format => 'xml' should not render foo
+- get :foo, :redirect => true should redirect
+
 FooController
 - get :foo should render text/html: foo
 - get :foo should assign @foo
@@ -50,6 +57,6 @@ class method #action_responses
 - @grandchild.action_responses[:action] not be same object as @child.action_responses[:action]
 - adding to @grandchild.action_responses[:action] should not change parents
 
-Finished in 0.26678 seconds
+Finished in 0.232867 seconds
 
-33 examples, 0 failures
+38 examples, 0 failures

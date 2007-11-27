@@ -1,1 +1,8 @@
+* IMPORTANT: if you are using a respond_to in a filter, or anywhere else,
+  and you don't want the response_for to override it, then use
+  respond_to_without_response_for
+
+  See foo_bail_out_controller_spec.rb (the last spec) and the app file for
+  and example
+  
 * initial release of response_for
