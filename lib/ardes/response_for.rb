@@ -3,6 +3,7 @@ module Ardes #:nodoc:
     def self.included(base)
       base.class_eval do
         extend ClassMethods
+        alias_method_chain :run_before_filters, :response_for
         alias_method_chain :respond_to, :response_for
         alias_method_chain :render, :response_for
         alias_method_chain :erase_render_results, :response_for
@@ -100,16 +101,6 @@ module Ardes #:nodoc:
       def remove_response_for(*actions)
         actions.collect(&:to_s).each {|action| respond_to_replaced[action] = action_responses[action] = nil}
       end
-      
-      # Convenience method for removing an action that is inherited by a superclass.
-      #
-      #   # we don't want :create and :destroy, but we want other stuff from FooController
-      #   class FazController < FooController
-      #     remove_action :create, :destroy
-      #   end
-      def remove_action(*actions)
-        actions.each {|a| self.class_eval "undef #{a}"}
-      end
     
     protected
       # return action_responses Hash. On initialize, return a hash whose contents are duplicates
@@ -126,8 +117,25 @@ module Ardes #:nodoc:
     end
   
   protected
+    # we only want response_for to trigger once we've got to the performing action stage
+    # otherwise respond_to in before filters will act unpredictably
+    def run_before_filters_with_response_for(*args)
+      @running_before_filters = true
+      run_before_filters_without_response_for(*args)
+    ensure
+      @running_before_filters = nil
+    end
+    
+    # if you want to ignore any response_for blocks, and gain exclusive respond_to
+    # control, pass :exclusive => true
+    #
+    #   respond_to :exclusive => true do |format|
+    #
+    # But, also see ClassMethods#remove_response_for
     def respond_to_with_response_for(*types, &block)
-      instance_variable_set('@performed_respond_to', true)
+      options = types.extract_options!
+      return respond_to_without_response_for(*types, &block) if options[:exclusive] || @running_before_filters
+      
       respond_to_without_response_for do |responder|
         unless self.class.send(:respond_to_replaced)[action_name]
           types.each {|type| responder.send(type)}
@@ -137,11 +145,13 @@ module Ardes #:nodoc:
           action_blocks.each {|b| instance_exec(responder, &b)}
         end
       end
+    ensure
+      @performed_respond_to = true
     end
     
     # removes the @performed_respond_to along with the standard erase_render_results call
     def erase_render_results_with_response_for
-      instance_variable_set('@performed_respond_to', false)
+      @performed_respond_to = false
       erase_render_results_without_response_for
     end
     

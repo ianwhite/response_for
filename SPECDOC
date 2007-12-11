@@ -1,41 +1,29 @@
 
-AllFooRemovedController
-- should not have :foo action
-- should not have :foo2 action
-- should not have :foo3 action
-
-BackToFooController
+BackToFooController:
 - get :foo, :format => 'xml' should not render foo
 
-DefaultRespondToController behaviour of #respond_to
+DefaultRespondToController behaviour of #respond_to:
 - get :foo should not call first
 - get :foo should not call second
 - get :foo should call third
 
-FooBailOutController
+FooBailOutController:
+- get :foo, :bail_out => true should redirect
+
+FooController:
 - get :foo should render text/html: foo
 - get :foo should assign @foo
 - get :foo, :format => 'html' should render foo
 - get :foo, :format => 'xml' should not render foo
-- get :foo, :redirect => true should redirect
 
-FooController
-- get :foo should render text/html: foo
-- get :foo should assign @foo
-- get :foo, :format => 'html' should render foo
-- get :foo, :format => 'xml' should not render foo
-
-FooRemovedController
-- should not have :foo action
-
-InlineXmlFooController
+InlineXmlFooController:
 - get :foo should render text/html 'foo'
 - get :foo should assign @foo
 - get :foo, :format => 'html' should render 'foo'
 - get :foo, :format => 'xml' should call xml_call with 'foo
 - get :foo, :format => 'xml' should have response.body of 'XML'
 
-XmlFooController
+XmlFooController:
 - get :foo should render foo
 - get :foo should assign @foo
 - get :foo, :format => 'html' should render foo
@@ -43,20 +31,20 @@ XmlFooController
 - get :bar, :format => 'xml' should render bar
 - get :just_a_template, :format => 'xml' should render just_a_template
 
-XmlOnlyFooController
+XmlOnlyFooController:
 - get :foo should render xml: foo
 - get :bar should render xml: bar
 - get :foo should assign @foo
 - get :foo, :format => 'html' should not render foo
 - get :foo, :format => 'xml' should render foo
 
-class method #action_responses
+class method #action_responses:
 - @child.action_responses[:action] should be copy of parent's action response for :action
 - @grandchild.action_responses[:action] should be copy of @child.action_responses[:action]
 - @child.action_responses[:action] not be same object as parent's action response for :action
 - @grandchild.action_responses[:action] not be same object as @child.action_responses[:action]
 - adding to @grandchild.action_responses[:action] should not change parents
 
-Finished in 0.232867 seconds
+Finished in 0.236473 seconds
 
-38 examples, 0 failures
+30 examples, 0 failures

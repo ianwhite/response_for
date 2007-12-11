@@ -18,16 +18,16 @@ class XmlFooController < FooController
 end
 
 class FooBailOutController < FooController
-  before_filter :bail_out_if_redirect
+  before_filter :bail_out
   
   response_for :foo do |format|
-    format.html { render :action => 'cool'}
+    format.html { render :action => 'foo'}
   end
   
 protected
-  def bail_out_if_redirect
-    if params[:redirect]
-      respond_to_without_response_for do |format|
+  def bail_out
+    if params[:bail_out]
+      respond_to do |format|
         format.html { redirect_to 'http://test.host/redirected' }
       end
     end
@@ -48,15 +48,4 @@ end
 
 class BackToFooController < XmlFooController
   remove_response_for :foo, :bar
-end
-
-class FooRemovedController < FooController
-  remove_action :foo
-  
-  def foo2; end
-  def foo3; end
-end
-
-class AllFooRemovedController < FooRemovedController
-  remove_action :foo2, :foo3
 end
