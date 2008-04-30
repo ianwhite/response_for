@@ -6,12 +6,6 @@ describe InlineXmlFooController do
     controller.stub!(:xml_call).and_return('XML')
   end
   
-  it "get :foo should render text/html 'foo'" do
-    get :foo
-    response.should render_template(:foo)
-    response.content_type.should == 'text/html'
-  end
-  
   it "get :foo should assign @foo" do
     get :foo
     assigns[:foo].should == 'Foo'

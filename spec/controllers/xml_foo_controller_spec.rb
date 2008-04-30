@@ -28,12 +28,4 @@ describe XmlFooController do
     response.should render_template(:bar)
     response.content_type.should == 'application/xml'
   end
-  
-  it "get :just_a_template, :format => 'xml' should render just_a_template" do
-    @controller.stub!(:template_exists?).and_return(true)
-    @controller.stub!(:template_public?).and_return(true)
-    get :just_a_template, :format => 'xml'
-    response.should render_template(:just_a_template)
-    response.content_type.should == 'application/xml'
-  end
 end
