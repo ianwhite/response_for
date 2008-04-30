@@ -24,15 +24,21 @@ garlic do
 
   # for target, default repo is 'rails', default branch is 'master'
   target 'edge' do
-    plugin 'response_for', :clone => true # so we can work on it and push fixes upstream
+    prepare do
+      plugin 'response_for', :clone => true # so we can work on it and push fixes upstream
+    end
   end
   
   target '2.0-stable', :branch => 'origin/2-0-stable' do
-    plugin 'response_for', :branch => 'origin/2.0-stable', :clone => true
+    prepare do
+      plugin 'response_for', :branch => 'origin/2.0-stable', :clone => true
+    end
   end
     
   target '2.0.2', :tag => 'v2.0.2' do
-    plugin 'response_for', :branch => 'origin/2.0-stable', :clone => true
+    prepare do
+      plugin 'response_for', :branch => 'origin/2.0-stable', :clone => true
+    end
   end
 
   all_targets do
