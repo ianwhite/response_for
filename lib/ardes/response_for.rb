@@ -162,7 +162,7 @@ module Ardes #:nodoc:
     # This allows actions without an explicit respond_to block to be decorated
     # with response_for
     def render_with_response_for(*args, &block)
-      if !instance_variable_get('@performed_respond_to') && !block_given? && args.reject(&:nil?) == [] && self.class.send(:action_responses)[action_name]
+      if !instance_variable_get('@performed_respond_to') && self.class.send(:action_responses)[action_name] && !block_given? && args.reject{|a| a.nil? || a.empty?}.empty?
         respond_to
         return if performed?
       end
