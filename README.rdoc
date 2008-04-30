@@ -1,5 +1,3 @@
-http://plugins.ardes.com > response_for
-
 = response_for
 
 response_for (see Ardes::ResponseFor::ClassMethods) allows you to decorate the respond_to block of actions on sublcassed controllers.  This works nicely with http://plugins.ardes.com/doc/resources_controller
@@ -26,12 +24,19 @@ response_for (see Ardes::ResponseFor::ClassMethods) allows you to decorate the r
     response_for :index, :show, :types => [:html, :xml, :js]
   end
   
-=== Specs and Coverage
-* {SPECDOC}[link:files/SPECDOC.html] lists the specifications
-* {RSpec Report}[link:rspec_report.html] is a report of spec pass/fails
-* {RCov Report}[link:coverage/index.html] is the rcov report
+=== works with rails 2.0-stable and edge
 
-=== Testing
+response_for works with rails 2 and edge.
+
+=== Specs and Coverage
+
+* The SPECDOC lists the specifications
+* Coverage is 100% (C2), and the spec suite is quite comprehensive
+
 RSpec is used for testing, so the tests are in <tt>spec/</tt> rather than
 <tt>test/</tt> Do rake --tasks for more details.
 
+=== Continuous Integration
+
+garlic (at http://github.com/ianwhite/garlic) is used for CI.  To run the CI suite have a look at
+garlic_example.rb
