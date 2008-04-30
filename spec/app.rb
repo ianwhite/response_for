@@ -11,6 +11,10 @@ class FooController < ApplicationController
     respond_to(:json)
     erase_render_results
   end
+  
+  def baz
+    # no respond_to block in here, but we can still supplu one with response_for
+  end
 end
 
 class XmlFooController < FooController
