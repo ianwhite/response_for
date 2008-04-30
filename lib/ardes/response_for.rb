@@ -137,12 +137,12 @@ module Ardes #:nodoc:
       return respond_to_without_response_for(*types, &block) if options[:exclusive] || @running_before_filters
       
       respond_to_without_response_for do |responder|
-        if action_blocks = self.class.send(:action_responses)[action_name]
-          action_blocks.reverse.each {|b| instance_exec(responder, &b)}
-        end
         unless self.class.send(:respond_to_replaced)[action_name]
           types.each {|type| responder.send(type)}
           block.call(responder) if block
+        end
+        if action_blocks = self.class.send(:action_responses)[action_name]
+          action_blocks.each {|b| instance_exec(responder, &b)}
         end
       end
     ensure
