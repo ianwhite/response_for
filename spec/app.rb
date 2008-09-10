@@ -1,19 +1,19 @@
 class FooController < ApplicationController
   def foo
     @foo = "Foo"
-    respond_to do |format|
+    response do |format|
       format.html {}
     end
   end
   
   # testing that erase_render_results works as expected
   def bar
-    respond_to(:json)
+    response :json
     erase_render_results
   end
   
   def baz
-    # no respond_to block in here, but we can still supplu one with response_for
+    # no response block in here, but we can still supply one with response_for
   end
 end
 
