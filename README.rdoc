@@ -2,11 +2,15 @@
 
 response_for (see Ardes::ResponseFor::ClassMethods) allows you to decorate the respond_to block of actions on sublcassed controllers.  This works nicely with http://plugins.ardes.com/doc/resources_controller
 
-== Version 0.2
+== Current Version 0.2-stable
 
-Version 0.2 of response_for has BC-breaking API changes, has vastly simplified internals, and is supported only for Rails >= 2.1.x.
+Version 0.2-stable of response_for has BC-breaking API changes, has vastly simplified internals, and is supported only for Rails >= 2.1.x.
 
-Version 0.2 was released on Sept 14th 2008.
+Version 0.2.0 was released on Sept 14th 2008.
+
+As of version 0.2.0, response_for's functionality can be summed up in one sentence:
+
+"response_for allows you to specify default responses for any action (or before filter) that doesn't render or redirect"
 
 == Version 0.1
 
@@ -36,7 +40,6 @@ using rails >= 2.1 then use the 0.1-stable branch
     
     response_for :index, :show, :types => [:html, :xml, :js]
   end
-  
 
 === Specs and Coverage
 

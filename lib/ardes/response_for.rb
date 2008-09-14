@@ -17,7 +17,6 @@ module Ardes #:nodoc:
       # == Usage
       #
       #   response_for :action1 [, :action2], [,:types => [:mime, :type, :list]] [ do |format| ... end] # or
-      #   response_for :action1 [, :action2], [,:type => :mime_type] [ do |format| ... end]
       #
       # === Example
       #
@@ -41,29 +40,13 @@ module Ardes #:nodoc:
       #     response_for :index, :show, :types => [:html, :xml, :js]
       #   end
       #
-      # === respond_to takes precedence
+      # === when response_for kicks in
       # 
-      # If you write your action with a respond_to block, response_for will never be invoked for that action.
-      # If you want to write a controller so that its subclasses can use response_for then do this:
-      #
-      #   # before
-      #   def show
-      #     @thing = Thing.find(params[:id])
-      #     respond_to do |format|
-      #       format.html { }
-      #       format.xml  { render :xml => @thing }
-      #     end
-      #   end
+      # response_for only kicks in if the action (or any filters) have not already redirected or rendered.
       # 
-      #   # after
-      #   def show
-      #     @thing = Thing.find(params[:id])
-      #   end
-      #
-      #   response_for :show do |format|
-      #     format.html { }
-      #     format.xml  { render :xml => @thing }
-      #   end
+      # This means that if you foresee wanting to override your action's responses, you should write them without
+      # a respond_to block, but with a response_for block (the latter can be overridden by subsequent response_fors, the 
+      # former cannot)
       # 
       # === Other examples 
       #
@@ -101,14 +84,14 @@ module Ardes #:nodoc:
           action_responses[action].unshift types_block if types_block
           action_responses[action].unshift block if block
           
-          # if there's no action yet defined, create a stub - this is so that you
-          # can provide responses for actions which are simply templates, or simply define responses
+          # if there's no action yet defined, create an empty one - this is so that you
+          # we may provide responses for templates
           class_eval "def #{action}; end" unless instance_methods.include?(action)
         end
       end
     
-      # remove any response for the specified actions.  If no arguments are given, the
-      # entire all repsonses for all actions are removed
+      # remove any response for the specified actions.  If no arguments are given,
+      # then all repsonses for all actions are removed
       def remove_response_for(*actions)
         if actions.empty?
           instance_variable_set('@action_responses', nil)
@@ -129,6 +112,7 @@ module Ardes #:nodoc:
     end
     
   protected
+    # if there are responses for the current action, then respond_to them
     def respond_to_action_responses
       if (responses = self.class.action_responses[action_name]) && responses.any?
         respond_to do |responder|
@@ -139,6 +123,8 @@ module Ardes #:nodoc:
       end
     end
     
+    # this method is invoked if we've got to the end of an action without
+    # performing, which is when we respond_to any repsonses defined 
     def default_render_with_response_for
       respond_to_action_responses
       default_render_without_response_for unless performed?
