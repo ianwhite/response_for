@@ -1,50 +1,149 @@
 
-BackToFooController
-- get :foo, :format => 'xml' should not render foo
+DefaultRailsBehaviourSpec::TheController GET :two_respond_tos
+- should recieve first and second in order
 
-FooBailOutController
-- get :foo, :bail_out => true should redirect
+DefaultRailsBehaviourSpec::TheController GET :two_responses
+- should only receive first and NOT second
 
-FooController
-- get :foo should render text/html: foo
-- get :foo should assign @foo
-- get :foo, :format => 'html' should render foo
-- get :foo, :format => 'xml' should not render foo
+action_responses
+- SuperController.action_responses should not == SubController.action_responses
+- SuperController should have one action_response for 'a_response'
+- SubController should have two action_responses for 'a_response', and one each for 'an_action', and 'performing_action'
 
-FooAController
-- get :foo should call a
-- get :baz should call bazza (inside the response_for block)
+InheritedControllerSpec::SuperController GET :an_action
+- should execute action
+- should render :an_action
 
-FooBController
-- get :foo should call b
+InheritedControllerSpec::SuperController GET :a_response
+- should execute inside the super response block
+- should NOT execute inside the sub response block
 
-InlineXmlFooController
-- get :foo should assign @foo
-- get :foo, :format => 'html' should render 'foo'
-- get :foo, :format => 'xml' should call xml_call with 'foo
-- get :foo, :format => 'xml' should have response.body of 'XML'
+InheritedControllerSpec::SuperController GET :performing_action
+- should redirect
 
-XmlFooController
-- get :foo should render foo
-- get :foo should assign @foo
-- get :foo, :format => 'html' should render foo
-- get :foo, :format => 'xml' should render foo
-- get :bar, :format => 'xml' should render bar
+InheritedControllerSpec::SubController GET :an_action (decorated with redirecting response_for)
+- should execute action
+- should redirect
 
-XmlOnlyFooController
-- get :foo should render xml: foo
-- get :bar should render xml: bar
-- get :foo should assign @foo
-- get :foo, :format => 'html' should not render foo
-- get :foo, :format => 'xml' should render foo
+InheritedControllerSpec::SubController GET :a_response (decorated with a new response)
+- should NOT execute the super response
+- should execute the sub response
 
-class method #action_responses
-- @child.action_responses[:action] should be copy of parent's action response for :action
-- @grandchild.action_responses[:action] should be copy of @child.action_responses[:action]
-- @child.action_responses[:action] not be same object as parent's action response for :action
-- @grandchild.action_responses[:action] not be same object as @child.action_responses[:action]
-- adding to @grandchild.action_responses[:action] should not change parents
+InheritedControllerSpec::SubController GET :performing_action
+- should NOT execute the sub response
+- should redirect as per the super def
 
-Finished in 0.328216 seconds
+NoResponseIfPerformedSpec::TheController when before_filter redirects, GET :an_action
+- should redirect to 'http://redirected.from.before_filter'
+- should not execute inside response_for
 
-28 examples, 0 failures
+NoResponseIfPerformedSpec::TheController when before_filter doesn't redirect, GET :an_action
+- should execute inside response for
+- should render :an_action
+
+Picking template PickTemplateSpec::TemplateOnlyController GET :an_action, HTTP_ACCEPT =
+- text/html, should render an_action.html
+- application/xml, should IGNORE and render an_action.html
+
+Picking template [:atom, :xml, :html, :js] PickTemplateSpec::RespondToTypesController
+- GET :an_action, should render an_action.atom
+
+Picking template [:atom, :xml, :html, :js] PickTemplateSpec::RespondToTypesController GET :an_action, HTTP_ACCEPT =
+- text/html, should render an_action.html
+- application/xml, should render an_action.xml
+- text/javascript, should render an_action.js
+- application/atom+xml, should render an_action.atom
+
+Picking template [:atom, :xml, :html, :js] PickTemplateSpec::RespondToTypesController GET :an_action, :format =>
+- :html, should render an_action.html
+- :js, should render an_action.js
+- :xml, should render an_action.xml
+- :atom, should render an_action.atom
+
+Picking template [:atom, :xml, :html, :js] PickTemplateSpec::RespondToBlockController
+- GET :an_action, should render an_action.atom
+
+Picking template [:atom, :xml, :html, :js] PickTemplateSpec::RespondToBlockController GET :an_action, HTTP_ACCEPT =
+- text/html, should render an_action.html
+- application/xml, should render an_action.xml
+- text/javascript, should render an_action.js
+- application/atom+xml, should render an_action.atom
+
+Picking template [:atom, :xml, :html, :js] PickTemplateSpec::RespondToBlockController GET :an_action, :format =>
+- :html, should render an_action.html
+- :js, should render an_action.js
+- :xml, should render an_action.xml
+- :atom, should render an_action.atom
+
+Picking template [:atom, :xml, :html, :js] PickTemplateSpec::ResponseForTypesController
+- GET :an_action, should render an_action.atom
+
+Picking template [:atom, :xml, :html, :js] PickTemplateSpec::ResponseForTypesController GET :an_action, HTTP_ACCEPT =
+- text/html, should render an_action.html
+- application/xml, should render an_action.xml
+- text/javascript, should render an_action.js
+- application/atom+xml, should render an_action.atom
+
+Picking template [:atom, :xml, :html, :js] PickTemplateSpec::ResponseForTypesController GET :an_action, :format =>
+- :html, should render an_action.html
+- :js, should render an_action.js
+- :xml, should render an_action.xml
+- :atom, should render an_action.atom
+
+Picking template [:atom, :xml, :html, :js] PickTemplateSpec::ResponseForBlockController
+- GET :an_action, should render an_action.atom
+
+Picking template [:atom, :xml, :html, :js] PickTemplateSpec::ResponseForBlockController GET :an_action, HTTP_ACCEPT =
+- text/html, should render an_action.html
+- application/xml, should render an_action.xml
+- text/javascript, should render an_action.js
+- application/atom+xml, should render an_action.atom
+
+Picking template [:atom, :xml, :html, :js] PickTemplateSpec::ResponseForBlockController GET :an_action, :format =>
+- :html, should render an_action.html
+- :js, should render an_action.js
+- :xml, should render an_action.xml
+- :atom, should render an_action.atom
+
+Picking template [:atom, :xml, :html, :js] PickTemplateSpec::ResponseForMixOfBlockAndTypesController
+- GET :an_action, should render an_action.atom
+
+Picking template [:atom, :xml, :html, :js] PickTemplateSpec::ResponseForMixOfBlockAndTypesController GET :an_action, HTTP_ACCEPT =
+- text/html, should render an_action.html
+- application/xml, should render an_action.xml
+- text/javascript, should render an_action.js
+- application/atom+xml, should render an_action.atom
+
+Picking template [:atom, :xml, :html, :js] PickTemplateSpec::ResponseForMixOfBlockAndTypesController GET :an_action, :format =>
+- :html, should render an_action.html
+- :js, should render an_action.js
+- :xml, should render an_action.xml
+- :atom, should render an_action.atom
+
+Picking template [:atom, :xml, :html, :js] PickTemplateSpec::InheritedController
+- GET :an_action, should render an_action.atom
+
+Picking template [:atom, :xml, :html, :js] PickTemplateSpec::InheritedController GET :an_action, HTTP_ACCEPT =
+- text/html, should render an_action.html
+- application/xml, should render an_action.xml
+- text/javascript, should render an_action.js
+- application/atom+xml, should render an_action.atom
+
+Picking template [:atom, :xml, :html, :js] PickTemplateSpec::InheritedController GET :an_action, :format =>
+- :html, should render an_action.html
+- :js, should render an_action.js
+- :xml, should render an_action.xml
+- :atom, should render an_action.atom
+
+RemoveResponseForSpec::TheController
+- should have action_responses for :foo and :bar
+
+RemoveResponseForSpec::TheController.remove_response_for :bar
+- should hanve action_responses for :foo
+
+RemoveResponseForSpec::TheController.remove_response_for
+- should have empty action_responses
+
+Finished in 0.451715 seconds
+
+79 examples, 0 failures
