@@ -10,7 +10,7 @@ plugin_name = File.basename(File.dirname(__FILE__))
 
 task :default => :spec
 
-task :cruise => "spec:rcov:verify"
+task :cruise => "garlic:all"
 
 desc "Run the specs for #{plugin_name}"
 Spec::Rake::SpecTask.new(:spec) do |t|
