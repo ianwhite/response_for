@@ -3,7 +3,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), '../spec_helper'))
 module PickTemplateSpec
   # example setup
   class TemplateOnlyController < ActionController::Base
-    self.view_paths << File.join(File.dirname(__FILE__), '../fixtures/views')
+    self.view_paths = [File.join(File.dirname(__FILE__), '../fixtures/views')]
   end
 
   class RespondToTypesController < TemplateOnlyController
