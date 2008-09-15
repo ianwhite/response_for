@@ -1,4 +1,5 @@
 module Ardes #:nodoc:
+  # included into ActionController::Base
   module ResponseFor
     def self.included(base)
       base.class_eval do
@@ -113,13 +114,14 @@ module Ardes #:nodoc:
     
   protected
     # if there are responses for the current action, then respond_to them
+    #
+    # we rescue the case where there were no responses, so that the default_render
+    # action will be performed
     def respond_to_action_responses
       if (responses = self.class.action_responses[action_name]) && responses.any?
         respond_to do |responder|
-          responses.each do |response|
-            instance_exec(responder, &response)
-          end
-        end
+          responses.each {|response| instance_exec(responder, &response) }
+        end rescue Responder::NoResponsesError
       end
     end
     
@@ -128,6 +130,22 @@ module Ardes #:nodoc:
     def default_render_with_response_for
       respond_to_action_responses
       default_render_without_response_for unless performed?
+    end
+    
+    # included into ActionController::MimeResponds::Responder
+    module Responder
+      class NoResponsesError < RuntimeError; end
+      
+      def self.included(responder)
+        responder.class_eval do
+          # we make the responder raise an error if there are no responses
+          def respond_with_response_for
+            raise NoResponseError if @responses.empty?
+            respond_without_response_for
+          end
+          alias_method_chain :respond, :response_for
+        end
+      end
     end
   end
 end

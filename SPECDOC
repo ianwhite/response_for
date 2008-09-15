@@ -144,6 +144,27 @@ RemoveResponseForSpec::TheController.remove_response_for :bar
 RemoveResponseForSpec::TheController.remove_response_for
 - should have empty action_responses
 
-Finished in 0.451715 seconds
+StackingResponsesSpec::TheController with responses conditionally executed GET :foo (no conditions)
+- should execute second, then first, response
+- should NOT execute the html response in first
+- should NOT execute the html response in second
+- should render :action => :foo (the default response)
 
-79 examples, 0 failures
+StackingResponsesSpec::TheController with responses conditionally executed GET :foo, :second => true
+- should execute second, then first, then in html second, response
+- should redirect from second response
+- should NOT execute first html response
+
+StackingResponsesSpec::TheController with responses conditionally executed GET :foo, :first => true
+- should execute second, then first, then in first html response
+- should redirect from first response
+- should NOT execute second html response
+
+StackingResponsesSpec::TheController with responses conditionally executed GET :foo, :first => true, :second => true (can't execute two html blocks)
+- should execute second, then first, then in second html response
+- should redirect from second response
+- should NOT execute first html response
+
+Finished in 0.729328 seconds
+
+92 examples, 0 failures
