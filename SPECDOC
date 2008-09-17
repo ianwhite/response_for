@@ -151,20 +151,20 @@ StackingResponsesSpec::TheController with responses conditionally executed GET :
 - should render :action => :foo (the default response)
 
 StackingResponsesSpec::TheController with responses conditionally executed GET :foo, :second => true
-- should execute second, then first, then in html second, response
+- should execute second, then first, then html second, response
 - should redirect from second response
 - should NOT execute first html response
 
 StackingResponsesSpec::TheController with responses conditionally executed GET :foo, :first => true
-- should execute second, then first, then in first html response
+- should execute second, then first, then first html response
 - should redirect from first response
 - should NOT execute second html response
 
 StackingResponsesSpec::TheController with responses conditionally executed GET :foo, :first => true, :second => true (can't execute two html blocks)
-- should execute second, then first, then in second html response
+- should execute second, then first, then second html response
 - should redirect from second response
 - should NOT execute first html response
 
-Finished in 0.729328 seconds
+Finished in 0.494693 seconds
 
 92 examples, 0 failures

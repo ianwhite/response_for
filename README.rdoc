@@ -6,7 +6,7 @@ response_for (see Ardes::ResponseFor::ClassMethods) allows you to decorate the r
 
 As of version 0.2.0, response_for's functionality can be summed up in one sentence:
 
-"response_for allows you to specify default responses for any action (or before filter) that doesn't render or redirect"
+<b>"response_for allows you to specify default responses for any action (or before filter) that doesn't render or redirect"</b>
 
 Actions typically do two things - interact with models, and render a response.  The above simple idea allows you to decouple these
 two functions (where appropriate), which means abstraction of common patterns becomes possible.
@@ -15,7 +15,6 @@ NOTE: 0.2-stable has BC-breaking API changes, and is supported only for Rails >=
 You should use 0.1-stable in your existing projects until you have runs your specs and whatnot.
 
 If you want to know more about why I changed the API in 0.2 look at the bottom of this README
-
 
 === Example
 
@@ -59,12 +58,39 @@ headaches, such as:
   respond_to_without_response_for in any bail out code.
 * Conceptually, overriding code declared in methods, with code declared at the class level, is weird.  Here's an example
 
-  class FooController < SuperclassController
-    response_for :index # override Superclass's index respond_to
+    class FooController < SuperclassController
+      response_for :index # override Superclass's index respond_to
     
-    def index
-      respond_to  # one might expect this to override the above, as its declared later - but it wont!
+      def index
+        respond_to  # one might expect this to override the above, as its declared later - but it wont!
+      end
     end
+
+So, in 0.2 a much simpler idea is behind response_for - you can declare a default response for an action which will be performed
+if <b>that that action has not already performed a render or redirect</b>.  This means that all of your bail out code written with
+respond_to will do what it's supposed to.
+
+==== Rewriting for 0.2
+
+If you're upgrading, you just need to convert any actions you want to override from this:
+
+  def index
+    @things = Thing.all
+    respond_to do |format|
+      format.html
+      format.xml { render :xml => @things }
+    end
+  end
+  
+to this:
+
+  def index
+    @things = Thing.all
+  end
+  
+  response_for :index fo |format|
+    format.html
+    format.xml { render :xml => @things }
   end
 
 == Previous Versions: 0.1
