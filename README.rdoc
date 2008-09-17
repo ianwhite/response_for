@@ -4,16 +4,18 @@ response_for (see Ardes::ResponseFor::ClassMethods) allows you to decorate the r
 
 == Current Version 0.2-stable
 
-Version 0.2-stable of response_for has BC-breaking API changes, has vastly simplified internals, and is supported only for Rails >= 2.1.x.
-
-Version 0.2.0 was released on Sept 14th 2008.
-
 As of version 0.2.0, response_for's functionality can be summed up in one sentence:
 
 "response_for allows you to specify default responses for any action (or before filter) that doesn't render or redirect"
 
-Actions typically do two things - interact with models, and provide a repsonse.  The above simple idea allows you to decouple these
+Actions typically do two things - interact with models, and render a response.  The above simple idea allows you to decouple these
 two functions (where appropriate), which means abstraction of common patterns becomes possible.
+
+NOTE: 0.2-stable has BC-breaking API changes, and is supported only for Rails >= 2.1.x.  Version 0.2.0 was released on Sept 14th 2008.
+You should use 0.1-stable in your existing projects until you have runs your specs and whatnot.
+
+If you want to know more about why I changed the API in 0.2 look at the bottom of this README
+
 
 === Example
 
@@ -44,6 +46,26 @@ RSpec is used for testing, so the tests are in <tt>spec/</tt> rather than
 
 garlic (at http://github.com/ianwhite/garlic) is used for CI.  To run the CI suite have a look at
 garlic_example.rb
+
+=== Why change the API in 0.2?
+
+repsonse_for <= v0.1 intercepted respond_to calls to allow overriding of these by class level declarations.  This turns out to have some 
+headaches, such as:
+
+* If you have some bail-out code in before_filters which uses respond_to, then response_for tries to overwrite this.  This meant that I had
+  to write response_for to only kick in once before_filters had run.  This made for some funky smelling code.
+* Sometimes your bail out code runs after the before_filters, in a superclass action for example, or just as part of your action (perhaps in
+  another method).  The above hack doesn't work for this case (the before_filters have run).  The solution in this case was to use
+  respond_to_without_response_for in any bail out code.
+* Conceptually, overriding code declared in methods, with code declared at the class level, is weird.  Here's an example
+
+  class FooController < SuperclassController
+    response_for :index # override Superclass's index respond_to
+    
+    def index
+      respond_to  # one might expect this to override the above, as its declared later - but it wont!
+    end
+  end
 
 == Previous Versions: 0.1
 
