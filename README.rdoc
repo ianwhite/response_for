@@ -16,6 +16,10 @@ You should use 0.1-stable in your existing projects until you have runs your spe
 
 If you want to know more about why I changed the API in 0.2 look at the bottom of this README
 
+== Tested for Rails 2.1 and edge
+
+response_for works with 2.1.x and edge.  For previous rails versions checkout the 0.1-stable-rails2.0 branch
+
 === Example
 
   class FooController < ApplicationController
