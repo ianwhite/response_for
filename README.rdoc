@@ -2,9 +2,13 @@
 
 response_for (see Ardes::ResponseFor::ClassMethods) allows you to decorate the respond_to block of actions on sublcassed controllers.  This works nicely with http://plugins.ardes.com/doc/resources_controller
 
+== This is the 0.1-stable branch
+
+Checkout the master branch for the latest response_for
+
 == Important for rails 2.0.x users
 
-If you are on 2.0.2 or 2.0-stable, you must checkout the 2.0-stable branch of response_for.
+If you are on 2.0.2 or 2.0-stable, you must checkout the 0.1-stable-rails-2.0 branch of response_for.
 
 Edge users should use the master branch.
 
