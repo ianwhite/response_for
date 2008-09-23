@@ -6,7 +6,7 @@ require 'spec/rake/spectask'
 require 'spec/rake/verify_rcov'
 require 'rake/rdoctask'
 
-plugin_name = 'respond_to'
+plugin_name = 'response_for'
 
 task :default => :spec
 
