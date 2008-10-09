@@ -69,7 +69,7 @@ module InheritedControllerSpec
     
       it "should render :an_action" do
         get :an_action
-        response.should render_template(:an_action)
+        response.should render_template('inherited_spec/super/an_action')
       end
     end
     
