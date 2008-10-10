@@ -103,6 +103,14 @@ module Ardes #:nodoc:
         instance_variable_get('@action_responses') || instance_variable_set('@action_responses', copy_of_each_of_superclass_action_responses)
       end
       
+      # takes any responses from the argument (a controller, or responses module) and adds them to this controller's responses
+      def include_responses_from(responses_container)
+        responses_container.action_responses.each do |action, responses|
+          action_responses[action] ||= []
+          action_responses[action].unshift(responses)
+        end
+      end
+      
     private
       def copy_of_each_of_superclass_action_responses
         (superclass.action_responses rescue {}).inject({}){|m,(k,v)| m.merge(k => v.dup)}

@@ -5,6 +5,9 @@ module Ardes#:nodoc:
   # when this module is included into a controller, the responses will be copied
   # over, along with the actions.
   #
+  # NOTE: If you are defining self.included on your module, make sure you put the
+  # extend Ardes::ResponsesModule *after* self.included method definition.
+  #
   # Example:
   #
   #  module MyActions
@@ -29,10 +32,8 @@ module Ardes#:nodoc:
     def self.extended(mixin)
       class << mixin
         def included_with_responses(controller_class)
-          action_responses.each do |action, responses|
-            controller_class.action_responses[action] ||= []
-            controller_class.action_responses[action].unshift(responses)
-          end
+          controller_class.include_responses_from(self)
+          included_without_responses(controller_class)
         end
         alias_method_chain :included, :responses
       end
