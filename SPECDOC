@@ -165,6 +165,6 @@ StackingResponsesSpec::TheController with responses conditionally executed GET :
 - should redirect from second response
 - should NOT execute first html response
 
-Finished in 0.494693 seconds
+Finished in 0.49728 seconds
 
 92 examples, 0 failures
