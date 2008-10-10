@@ -107,7 +107,7 @@ module Ardes #:nodoc:
       def include_responses_from(responses_container)
         responses_container.action_responses.each do |action, responses|
           action_responses[action] ||= []
-          action_responses[action].unshift(responses)
+          action_responses[action].unshift(*responses)
         end
       end
       
