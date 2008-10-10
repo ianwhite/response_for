@@ -1,3 +1,5 @@
+* Added VERSION introspection, this is 0.2.1
+
 * To facilitate making reusable chunks of actions and responses, simply extend Ardes::ResponsesModule into
   your action modules.  See Ardes::ResponsesModule for details
 
