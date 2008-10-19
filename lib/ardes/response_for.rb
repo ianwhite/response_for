@@ -6,6 +6,7 @@ module Ardes #:nodoc:
         extend ClassMethods
         alias_method_chain :default_render, :response_for
         alias_method_chain :template_exists?, :response_for
+        alias_method_chain :respond_to, :response_for
       end
     end
     
@@ -134,7 +135,7 @@ module Ardes #:nodoc:
     # we rescue the case where there were no responses, so that the default_render
     # action will be performed
     def respond_to_action_responses
-      if (responses = self.class.action_responses[action_name]) && responses.any?
+      if !@respond_to_performed && (responses = self.class.action_responses[action_name]) && responses.any?
         respond_to do |responder|
           responses.each {|response| instance_exec(responder, &response) }
         end rescue Responder::NoResponsesError
@@ -146,6 +147,11 @@ module Ardes #:nodoc:
     def default_render_with_response_for
       respond_to_action_responses
       default_render_without_response_for unless performed?
+    end
+    
+    def respond_to_with_response_for(*args, &block)
+      @respond_to_performed = true
+      respond_to_without_response_for(*args, &block)
     end
     
     # included into ActionController::MimeResponds::Responder
