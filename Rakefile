@@ -5,7 +5,7 @@ $LOAD_PATH.unshift(rspec_base) if File.exist?(rspec_base) and !$LOAD_PATH.includ
 require 'spec/rake/spectask'
 require 'spec/rake/verify_rcov'
 require 'rake/rdoctask'
-begin; require 'garlic/tasks'; rescue LoadError; end
+require 'garlic/tasks'
 
 plugin_name = 'response_for'
 
@@ -71,11 +71,7 @@ end
 task :cruise do
   # run the garlic task, capture the output, if succesful make the docs and copy them to ardes
   begin
-    `cp garlic_example.rb garlic.rb`
-    `rake get_garlic`
-    `cd garlic; git pull`
-    `rake garlic:clean`
-    sh "rake garlic:all"
+    sh "garlic:all"
     sh "rake garlic:run_targets TARGET=edge > garlic_report.txt"
     
     # send abridged report

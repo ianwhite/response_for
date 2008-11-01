@@ -1,8 +1,12 @@
+# to avail youself of garlic:
+#   sudo gem install ianwhite-garlic --source http://gems.github.com
+#   rake garlic:all
+
 garlic do
   # requried repositories
-  repo 'rails', :url => 'git://github.com/rails/rails', :local => '~/dev/vendor/rails'
-  repo 'rspec', :url => 'git://github.com/dchelimsky/rspec', :local => '~/dev/vendor/rspec'
-  repo 'rspec-rails', :url => 'git://github.com/dchelimsky/rspec-rails', :local => '~/dev/vendor/rspec-rails'
+  repo 'rails', :url => 'git://github.com/rails/rails'
+  repo 'rspec', :url => 'git://github.com/dchelimsky/rspec'
+  repo 'rspec-rails', :url => 'git://github.com/dchelimsky/rspec-rails'
   repo 'response_for', :path => '.'
 
   # our targets
