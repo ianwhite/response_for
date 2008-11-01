@@ -69,6 +69,7 @@ end
 
 task :cruise do
   # run the garlic task, capture the output, if succesful make the docs and copy them to ardes
+  mkdir_p ".garlic"
   sh "garlic all > .garlic/report.txt"
   `scp -i ~/.ssh/ardes .garlic/report.txt ardes@ardes.com:~/subdomains/plugins/httpdocs/doc/#{plugin_name}_garlic_report.txt`
   cd ".garlic/edge/vendor/plugins/#{plugin_name}" do
