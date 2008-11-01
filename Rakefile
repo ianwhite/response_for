@@ -5,7 +5,6 @@ $LOAD_PATH.unshift(rspec_base) if File.exist?(rspec_base) and !$LOAD_PATH.includ
 require 'spec/rake/spectask'
 require 'spec/rake/verify_rcov'
 require 'rake/rdoctask'
-require 'garlic/tasks'
 
 plugin_name = 'response_for'
 
@@ -70,20 +69,10 @@ end
 
 task :cruise do
   # run the garlic task, capture the output, if succesful make the docs and copy them to ardes
-  begin
-    sh "garlic:all"
-    sh "rake garlic:run_targets TARGET=edge > garlic_report.txt"
-    
-    # send abridged report
-    report = File.read('garlic_report.txt').sub(/^.*?==========/m, '==========')
-    report = "garlic report for #{plugin_name}\n#{`git log -n 1 --pretty=oneline --no-color`}\n" + report
-    File.open('garlic_report.txt', 'w+') {|f| f << report }
-    sh "scp -i ~/.ssh/ardes garlic_report.txt ardes@ardes.com:~/subdomains/plugins/httpdocs/doc/#{plugin_name}_garlic_report.txt"
-
-    # build doc and send that
-    cd "garlic/work/edge/vendor/plugins/#{plugin_name}" do
-      sh "rake doc:all"
-      sh "scp -i ~/.ssh/ardes -r doc ardes@ardes.com:~/subdomains/plugins/httpdocs/doc/#{plugin_name}"
-    end
+  sh "garlic all > .garlic/report.txt"
+  `scp -i ~/.ssh/ardes .garlic/report.txt ardes@ardes.com:~/subdomains/plugins/httpdocs/doc/#{plugin_name}_garlic_report.txt`
+  cd ".garlic/edge/vendor/plugins/#{plugin_name}" do
+    `rake doc:all`
+    `scp -i ~/.ssh/ardes -r doc ardes@ardes.com:~/subdomains/plugins/httpdocs/doc/#{plugin_name}`
   end
 end
