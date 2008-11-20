@@ -10,10 +10,8 @@ garlic do
   repo 'response_for', :path => '.'
 
   # our targets
-  target 'edge'
   target '2.1-stable', :branch => 'origin/2-1-stable'
-  target '2.1.1', :tag => 'v2.1.2'
-  target '2.2.0', :tag => 'v2.2.0'
+  target '2.2-stable', :branch => 'origin/2-2-stable'
   
   # all targets do the same thing
   all_targets do
