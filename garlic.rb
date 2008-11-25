@@ -1,31 +1,31 @@
-# to avail youself of garlic:
-#   sudo gem install ianwhite-garlic --source http://gems.github.com
-#   rake garlic:all
+# typical rspec garlic configuration
 
 garlic do
-  # requried repositories
-  repo 'rails', :url => 'git://github.com/rails/rails'
-  repo 'rspec', :url => 'git://github.com/dchelimsky/rspec'
-  repo 'rspec-rails', :url => 'git://github.com/dchelimsky/rspec-rails'
-  repo 'response_for', :path => '.'
-
-  # our targets
-  target '2.1-stable', :branch => 'origin/2-1-stable'
-  target '2.2-stable', :branch => 'origin/2-2-stable'
+  # this plugin
+  repo "response_for", :path => '.'
   
-  # all targets do the same thing
-  all_targets do
-    prepare do
-      plugin 'response_for', :clone => true
-      plugin 'rspec'
-      plugin 'rspec-rails' do
-        sh "script/generate rspec -f"
+  # other repos
+  repo "rails", :url => "git://github.com/rails/rails"
+  repo "rspec", :url => "git://github.com/dchelimsky/rspec"
+  repo "rspec-rails", :url => "git://github.com/dchelimsky/rspec-rails"
+  
+  # target railses
+  ['origin/2-2-stable', 'origin/2-1-stable'].each do |rails|
+    
+    # declare how to prepare, and run each CI target
+    target "Rails: #{rails}", :tree_ish => rails do
+      prepare do
+        plugin "response_for", :clone => true # so we can work in targets
+        plugin "rspec"
+        plugin "rspec-rails" do
+          `script/generate rspec -f`
+        end
       end
-    end
-  
-    run do
-      cd "vendor/plugins/response_for" do
-        sh "rake spec:rcov:verify"
+    
+      run do
+        cd "vendor/plugins/response_for" do
+          sh "rake"
+        end
       end
     end
   end
