@@ -10,7 +10,7 @@ garlic do
   repo "rspec-rails", :url => "git://github.com/dchelimsky/rspec-rails"
   
   # target railses
-  ['origin/2-2-stable', 'origin/2-1-stable'].each do |rails|
+  ['origin/master', 'origin/2-2-stable', 'origin/2-1-stable'].each do |rails|
     
     # declare how to prepare, and run each CI target
     target "Rails: #{rails}", :tree_ish => rails do
@@ -24,7 +24,7 @@ garlic do
     
       run do
         cd "vendor/plugins/response_for" do
-          sh "rake"
+          sh "rake spec:rcov:verify"
         end
       end
     end
