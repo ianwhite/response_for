@@ -8,8 +8,8 @@ module Ardes
       end
       
     protected
-      def template_exists_with_repsonse_for?
-        action_responses.any? || template_exists_without_repsonse_for?
+      def template_exists_with_response_for?
+        action_responses.any? || template_exists_without_response_for?
       end
     end
   end
