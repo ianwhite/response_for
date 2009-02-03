@@ -24,7 +24,7 @@ garlic do
     
       run do
         cd "vendor/plugins/response_for" do
-          sh "rake spec:rcov:verify"
+          sh "rake spec"
         end
       end
     end
