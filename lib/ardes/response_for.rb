@@ -146,8 +146,6 @@ module Ardes #:nodoc:
     def default_render_with_response_for
       respond_to_action_responses
       default_render_without_response_for unless performed?
-    rescue ActionView::MissingTemplate => e
-      respond_to_action_responses
     end
     
     # included into ActionController::MimeResponds::Responder
