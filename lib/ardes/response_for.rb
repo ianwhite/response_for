@@ -5,7 +5,7 @@ module Ardes #:nodoc:
       base.class_eval do
         extend ClassMethods
         alias_method_chain :default_render, :response_for
-        alias_method_chain :template_exists?, :response_for
+        ::ActionController::MimeResponds::Responder.send :include, Responder
       end
     end
     
@@ -129,12 +129,6 @@ module Ardes #:nodoc:
       (response && response.content_type) ? true : false
     end
     
-    # we extend template_exists? to return true if a template OR a response exists corresponding to the current action.
-    # This is so that a default render will be triggered when no action, but a repsonse does exist.
-    def template_exists_with_response_for?
-      action_responses.any? || template_exists_without_response_for?
-    end
-
     # if the response.content_type has not been set (if it has, then responthere are responses for the current action, then respond_to them
     #
     # we rescue the case where there were no responses, so that the default_render
@@ -152,6 +146,8 @@ module Ardes #:nodoc:
     def default_render_with_response_for
       respond_to_action_responses
       default_render_without_response_for unless performed?
+    rescue ActionView::MissingTemplate => e
+      respond_to_action_responses
     end
     
     # included into ActionController::MimeResponds::Responder
@@ -172,8 +168,8 @@ module Ardes #:nodoc:
     
     module VERSION #:nodoc:
       MAJOR = 0
-      MINOR = 2
-      TINY  = 2
+      MINOR = 3
+      TINY  = 0
 
       STRING = [MAJOR, MINOR, TINY].join('.')
     end
