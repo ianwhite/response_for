@@ -5,7 +5,6 @@ module Ardes #:nodoc:
       base.class_eval do
         extend ClassMethods
         alias_method_chain :default_render, :response_for
-        ::ActionController::MimeResponds::Responder.send :include, Responder
       end
     end
     
@@ -137,7 +136,7 @@ module Ardes #:nodoc:
       if !respond_to_performed? && action_responses.any?
         respond_to do |responder|
           action_responses.each {|response| instance_exec(responder, &response) }
-        end rescue Responder::NoResponsesError
+        end
       end
     end
     
@@ -148,26 +147,10 @@ module Ardes #:nodoc:
       default_render_without_response_for unless performed?
     end
     
-    # included into ActionController::MimeResponds::Responder
-    module Responder
-      class NoResponsesError < RuntimeError; end
-      
-      def self.included(responder)
-        responder.class_eval do
-          # we make the responder raise an error if there are no responses
-          def respond_with_response_for
-            raise NoResponseError if @responses.empty?
-            respond_without_response_for
-          end
-          alias_method_chain :respond, :response_for
-        end
-      end
-    end
-    
     module VERSION #:nodoc:
       MAJOR = 0
       MINOR = 3
-      TINY  = 0
+      TINY  = 1
 
       STRING = [MAJOR, MINOR, TINY].join('.')
     end
