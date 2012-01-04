@@ -142,9 +142,13 @@ module Ardes #:nodoc:
     
     # this method is invoked if we've got to the end of an action without
     # performing, which is when we respond_to any repsonses defined 
-    def default_render_with_response_for
+    def default_render_with_response_for(*args)
       respond_to_action_responses
-      default_render_without_response_for unless performed?
+      if Rails.version < "3.1.0"
+        default_render_without_response_for unless performed?
+      else
+        default_render_without_response_for(*args) unless performed?
+      end
     end
     
     module VERSION #:nodoc:
