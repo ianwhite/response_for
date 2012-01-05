@@ -14,9 +14,29 @@ You should use 0.1-stable in your existing projects until you have runs your spe
 
 If you want to know more about why I changed the API in 0.2 look at the bottom of this README
 
-== Tested for Rails 2.1 and edge
+== For Rails 3.0 and 3.1
 
-response_for works with 2.1.x and edge.  For previous rails versions checkout the 0.1-stable-rails2.0 branch
+Simply add the response_for gem to your Gemfile
+
+  gem "response_for"
+
+== For Rails 2.2 thru 2.3
+
+For these older versions of rails please checkout the 0.2-stable-rails2.1 branch. Plugin install on rails 2.2 and up can fetch from a branch.
+
+  ./script/plugin install git://github.com/ianwhite/response_for.git -r 0.2-stable-rails2.1
+
+== For Rails 2.1
+
+  cd vendor/plugins
+  git clone git://github.com/ianwhite/response_for.git
+  cd response_for
+  git checkout 0.2-stable-rails2.1
+  rmdir -f .git
+
+== For Rails 2.0 
+
+Please checkout the 0.1-stable-rails2.0 branch.  Same general instructions for Rails 2.1 should work.
 
 === Example
 
