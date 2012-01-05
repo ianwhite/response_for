@@ -1,10 +1,8 @@
 = response_for
 
-response_for (see Ardes::ResponseFor::ClassMethods) allows you to decorate the respond_to block of actions on sublcassed controllers.  This works nicely with http://plugins.ardes.com/doc/resources_controller
+response_for (see Ardes::ResponseFor::ClassMethods) allows you to decorate the respond_to block of actions on subclassed controllers.  This works nicely with http://plugins.ardes.com/doc/resources_controller
 
-== Current Version 0.2-stable
-
-As of version 0.2.0, response_for's functionality can be summed up in one sentence:
+As of version 0.2.0 and later, response_for's functionality can be summed up in one sentence:
 
 <b>"response_for allows you to specify default responses for any action (or before filter) that doesn't render or redirect"</b>
 
@@ -92,7 +90,7 @@ to this:
     @things = Thing.all
   end
   
-  response_for :index fo |format|
+  response_for :index |format|
     format.html
     format.xml { render :xml => @things }
   end

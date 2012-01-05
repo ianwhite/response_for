@@ -142,15 +142,15 @@ module Ardes #:nodoc:
     
     # this method is invoked if we've got to the end of an action without
     # performing, which is when we respond_to any repsonses defined 
-    def default_render_with_response_for
+    def default_render_with_response_for(*args)
       respond_to_action_responses
-      default_render_without_response_for unless performed?
+      default_render_without_response_for(*args) unless performed?
     end
     
     module VERSION #:nodoc:
       MAJOR = 0
       MINOR = 3
-      TINY  = 1
+      TINY  = 2
 
       STRING = [MAJOR, MINOR, TINY].join('.')
     end
