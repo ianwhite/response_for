@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
 
   s.files            = `git ls-files`.split("\n")
   s.test_files       = `git ls-files -- {spec}/*`.split("\n")
-  s.extra_rdoc_files = [ "README.rdoc" ]
+  s.extra_rdoc_files = [ "README.rdoc", "MIT-LICENSE", 'CHANGELOG' ]
   s.rdoc_options     = ["--charset=UTF-8"]
   s.require_path     = "lib"
 

@@ -1,1 +1,1 @@
-response_for.rb
+require 'response_for'

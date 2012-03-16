@@ -64,6 +64,11 @@ To get set up for development, do the following:
     end
   end
 
+== Contributors
+
+* Ian White http://github.com/ianwhite
+* Josh Goebel http://github.com/yyyc514
+
 == History
 
 NOTE: 0.2-stable has BC-breaking API changes, and is supported only for Rails >= 2.1.x.  Version 0.2.0 was released on Sept 14th 2008.
