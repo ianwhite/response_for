@@ -1,6 +1,6 @@
-module Ardes #:nodoc:
+module ResponseFor #:nodoc:
   # included into ActionController::Base
-  module ResponseFor
+  module ActionController
     def self.included(base)
       base.class_eval do
         extend ClassMethods

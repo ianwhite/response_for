@@ -1,3 +1,7 @@
+* 0.4.0 - Gemified [Josh Goebel, Ian White]
+  * The gem is called `response_for_rails`, see related `rc_rails` and `response_for_rc_rails`
+  * Removed Ardes namespace
+
 * 0.3.2 - Rails 3.1 compat
 
 * 0.2.2 - Fixed bug where response_for would clobber a respond_to if if the respond_to relied on default render [thanks Tom Stuart for the bug report]

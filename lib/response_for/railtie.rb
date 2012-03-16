@@ -1,8 +1,8 @@
 module ResponseFor
   class Railtie < Rails::Railtie #:nodoc:
-    initializer 'ardes.response_for' do
+    initializer 'response_for' do
       ActiveSupport.on_load(:action_controller) do
-        include Ardes::ResponseFor
+        include ResponseFor::ActionController
       end      
     end
   end

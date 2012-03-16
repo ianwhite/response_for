@@ -1,11 +1,11 @@
 # -*- encoding: utf-8 -*-
 
 $LOAD_PATH.unshift File.expand_path("../lib", __FILE__)
-require 'ardes/response_for/version'
-version = Ardes::ResponseFor::VERSION::STRING
+require 'response_for/version'
+version = ResponseFor::VERSION
 
 Gem::Specification.new do |s|
-  s.name        = "response_for"
+  s.name        = "response_for_rails"
   s.version     = version
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Ian White"]

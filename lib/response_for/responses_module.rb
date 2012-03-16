@@ -1,4 +1,4 @@
-module Ardes#:nodoc:
+module ResponseFor#:nodoc:
   # Extension to facilitate writing responses in mixins
   #
   # extend this into your own module to have it act as a response_for namespace
@@ -11,7 +11,7 @@ module Ardes#:nodoc:
   # Example:
   #
   #  module MyActions
-  #    extend Ardes::ResponsesModule
+  #    extend ResponseFor::ResponsesModule
   #
   #    def foo
   #      do_foo

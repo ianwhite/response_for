@@ -1,6 +1,8 @@
 = response_for
 
-response_for (see Ardes::ResponseFor::ClassMethods) allows you to decorate the respond_to block of actions on subclassed controllers.  This works nicely with http://plugins.ardes.com/doc/resources_controller
+The gem is called *response_for_rails*
+
+response_for (see ResponseFor::ActionController::ClassMethods) allows you to decorate the respond_to block of actions on subclassed controllers.  This works nicely with http://github.com/ianwhite/resources_controller
 
 As of version 0.2.0 and later, response_for's functionality can be summed up in one sentence:
 
@@ -14,11 +16,11 @@ You should use 0.1-stable in your existing projects until you have runs your spe
 
 If you want to know more about why I changed the API in 0.2 look at the bottom of this README
 
-== For Rails 3.0 and 3.1
+== For Rails 3.0 and higher
 
-Simply add the response_for gem to your Gemfile
+Simply add the response_for_rails gem to your Gemfile
 
-  gem "response_for"
+  gem "response_for_rails"
 
 == For Rails 2.2 thru 2.3
 
