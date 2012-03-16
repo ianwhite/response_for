@@ -6,7 +6,7 @@ module ResponseFor#:nodoc:
   # over, along with the actions.
   #
   # NOTE: If you are defining self.included on your module, make sure you put the
-  # extend Ardes::ResponsesModule *after* self.included method definition.
+  # extend ResponseFor::ResponsesModule *after* self.included method definition.
   #
   # Example:
   #
