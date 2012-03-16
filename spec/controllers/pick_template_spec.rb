@@ -1,9 +1,8 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '../spec_helper'))
+require 'spec_helper'
 
 module PickTemplateSpec
   # example setup
-  class TemplateOnlyController < ActionController::Base
-    self.view_paths = [File.join(File.dirname(__FILE__), '../fixtures/views')]
+  class TemplateOnlyController < ApplicationController
   end
 
   class RespondToTypesController < TemplateOnlyController
@@ -57,10 +56,10 @@ module PickTemplateSpec
   end
   
   # specs
-  describe "Standard behaviour of respond_to :atom, :xml, :html, :js", :shared => true do
-    it "GET :an_action, should render an_action.atom" do
+  shared_examples_for "Standard behaviour of respond_to :atom, :xml, :html, :js" do
+    it "GET :an_action, should render an_action.html" do
       get :an_action
-      response.body.should == 'body of an_action.atom'
+      response.body.should == 'body of an_action.html'
     end
     
     describe "GET :an_action, HTTP_ACCEPT =" do
@@ -113,7 +112,7 @@ module PickTemplateSpec
   end
 
   describe "Picking template" do
-    integrate_views
+    render_views
 
     describe TemplateOnlyController do
       describe "GET :an_action, HTTP_ACCEPT =" do
@@ -123,10 +122,10 @@ module PickTemplateSpec
           response.body.should == 'body of an_action.html'
         end
 
-        it "application/xml, should IGNORE and render an_action.html" do
+        it "application/xml, should render an_action.xml" do
           request.env["HTTP_ACCEPT"] = 'application/xml'
           get :an_action
-          response.body.should == 'body of an_action.html'
+          response.body.should == 'body of an_action.xml'
         end
       end
     end

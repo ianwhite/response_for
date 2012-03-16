@@ -27,7 +27,7 @@ module ResponseFor#:nodoc:
   #    # now this controller has foo and response_for :foo
   #  end
   module ResponsesModule
-    include ResponseFor::ClassMethods
+    include ResponseFor::ActionController::ClassMethods
     
     def self.extended(mixin)
       class << mixin
@@ -39,4 +39,9 @@ module ResponseFor#:nodoc:
       end
     end
   end
+end
+
+# BC
+module Ardes
+  ResponsesModule = ResponseFor::ResponsesModule
 end

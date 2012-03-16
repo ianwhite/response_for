@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '../spec_helper'))
+require 'spec_helper'
 
 module ResponsesModuleSpec
   module MyActionsAndResponses
@@ -9,7 +9,7 @@ module ResponsesModuleSpec
       end
     end
     
-    extend Ardes::ResponsesModule
+    extend ResponseFor::ResponsesModule
     
     def foo; end
     
@@ -18,7 +18,7 @@ module ResponsesModuleSpec
     end
   end
   
-  class MyController < ActionController::Base
+  class MyController < ApplicationController
     include MyActionsAndResponses
   end
   

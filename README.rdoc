@@ -4,17 +4,12 @@ The gem is called *response_for_rails*
 
 response_for (see ResponseFor::ActionController::ClassMethods) allows you to decorate the respond_to block of actions on subclassed controllers.  This works nicely with http://github.com/ianwhite/resources_controller
 
-As of version 0.2.0 and later, response_for's functionality can be summed up in one sentence:
+response_for's functionality can be summed up in one sentence:
 
 <b>"response_for allows you to specify default responses for any action (or before filter) that doesn't render or redirect"</b>
 
 Actions typically do two things - interact with models, and render a response.  The above simple idea allows you to decouple these
 two functions (where appropriate), which means abstraction of common patterns becomes possible.
-
-NOTE: 0.2-stable has BC-breaking API changes, and is supported only for Rails >= 2.1.x.  Version 0.2.0 was released on Sept 14th 2008.
-You should use 0.1-stable in your existing projects until you have runs your specs and whatnot.
-
-If you want to know more about why I changed the API in 0.2 look at the bottom of this README
 
 == For Rails 3.0 and higher
 
@@ -22,13 +17,15 @@ Simply add the response_for_rails gem to your Gemfile
 
   gem "response_for_rails"
 
-== For Rails 2.2 thru 2.3
+== Older rails
+
+=== For Rails 2.2 thru 2.3
 
 For these older versions of rails please checkout the 0.2-stable-rails2.1 branch. Plugin install on rails 2.2 and up can fetch from a branch.
 
   ./script/plugin install git://github.com/ianwhite/response_for.git -r 0.2-stable-rails2.1
 
-== For Rails 2.1
+=== For Rails 2.1
 
   cd vendor/plugins
   git clone git://github.com/ianwhite/response_for.git
@@ -36,11 +33,21 @@ For these older versions of rails please checkout the 0.2-stable-rails2.1 branch
   git checkout 0.2-stable-rails2.1
   rmdir -f .git
 
-== For Rails 2.0 
+=== For Rails 2.0 
 
 Please checkout the 0.1-stable-rails2.0 branch.  Same general instructions for Rails 2.1 should work.
 
-=== Example
+== Run the specs
+
+To get set up for development, do the following:
+
+  git clone git://github.com/ianwhite/response_for
+  cd response_for
+  cp Gemfile.lock.development Gemfile.lock
+  bundle
+  rake
+
+== Example
 
   class FooController < ApplicationController
     def index
@@ -57,18 +64,13 @@ Please checkout the 0.1-stable-rails2.0 branch.  Same general instructions for R
     end
   end
 
-=== Specs and Coverage
+== History
 
-* The SPECDOC lists the specifications
-* Coverage is 100% (C0), and the spec suite is quite comprehensive
+NOTE: 0.2-stable has BC-breaking API changes, and is supported only for Rails >= 2.1.x.  Version 0.2.0 was released on Sept 14th 2008.
+You should use 0.1-stable in your existing projects until you have runs your specs and whatnot.
 
-RSpec is used for testing, so the tests are in <tt>spec/</tt> rather than
-<tt>test/</tt> Do rake --tasks for more details.
+If you want to know more about why I changed the API in 0.2 read on
 
-=== Continuous Integration
-
-garlic (at http://github.com/ianwhite/garlic) is used for CI.  To run the CI suite have a look at
-garlic_example.rb
 
 === Why change the API in 0.2?
 

@@ -1,7 +1,7 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '../spec_helper'))
+require 'spec_helper'
 
 module DefaultRailsBehaviourSpec
-  class TheController < ActionController::Base
+  class TestController < ApplicationController
     def two_respond_tos
       respond_to {|f| f.html { first }}
       respond_to {|f| f.html { second }}
@@ -17,7 +17,16 @@ module DefaultRailsBehaviourSpec
     end
   end
 
-  describe TheController do
+  describe TestController do
+    #before(:all) do
+    #  Rails.application.routes.draw do
+    #    namespace :default_rails_behaviour_spec do
+    #      match 'test/:action' => 'test'
+    #    end
+    #  end
+    #end
+    #after(:all) { Rails.application.routes.clear! }
+    
     describe "GET :two_respond_tos" do
       after { get :two_respond_tos }
     

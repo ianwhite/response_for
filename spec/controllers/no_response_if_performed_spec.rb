@@ -1,12 +1,15 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '../spec_helper'))
+require 'spec_helper'
 
 module NoResponseIfPerformedSpec
   # example setup
-  class TheController < ActionController::Base
+  class TestController < ApplicationController
     before_filter :do_redirect
     
     response_for :an_action do |format|
       format.html { render :text => "in response for" }
+    end
+    
+    def an_action
     end
     
   protected
@@ -15,7 +18,7 @@ module NoResponseIfPerformedSpec
     end
   end
   
-  describe TheController do
+  describe TestController do
     describe "(when before_filter redirects)" do
       it "GET :an_action should redirect to 'http://redirected.from.before_filter'" do
         get :an_action

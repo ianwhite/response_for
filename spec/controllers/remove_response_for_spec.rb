@@ -1,7 +1,7 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '../spec_helper'))
+require 'spec_helper'
 
 module RemoveResponseForSpec
-  class TheController < ActionController::Base
+  class TheController < ApplicationController
     response_for :foo, :bar, :types => :html
     response_for :foo, :types => :js
   end

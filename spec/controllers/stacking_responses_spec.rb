@@ -1,10 +1,10 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '../spec_helper'))
+require 'spec_helper'
 
 # this spec shows how to stack responses - the important thing to note is that
 # once a format block is executed, that will stop all subsequent blocks of that
 # type being called.
 module StackingResponsesSpec
-  class TheController < ActionController::Base
+  class TestController < ApplicationController
     response_for :foo do |format|
       format.html do
         render :text => "default"
@@ -30,6 +30,9 @@ module StackingResponsesSpec
         end
       end
     end
+    
+    def foo
+    end
         
   protected
     def in_first; end
@@ -38,7 +41,7 @@ module StackingResponsesSpec
     def in_second_html; end
   end
   
-  describe TheController, "with responses conditionally executed" do
+  describe TestController, "with responses conditionally executed" do
     describe "GET :foo (no conditions)" do
       it "should execute second, then first, response" do
         @controller.should_receive(:in_second).once.ordered
