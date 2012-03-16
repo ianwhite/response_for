@@ -1,3 +1,5 @@
+* 0.4.1 - Remove symbolic link, add contributors to README
+
 * 0.4.0 - Gemified [Josh Goebel, Ian White]
   * The gem is called `response_for_rails`, see related `rc_rails` and `response_for_rc_rails`
   * Removed Ardes namespace
